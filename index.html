@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiSUPERVISI - Koordinator Pendidikan Haurwangi</title>
+    <!-- Menggunakan font Poppins agar terlihat modern dan identik dengan desain UI web -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Mencegah munculnya scrollbar ganda */
+            background-color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Desain Splash Screen berdasarkan warna biru di gambar */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #104b8e; /* Warna biru gelap sesuai screenshot */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-in-out;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Sentuhan aksen kuning oranye pada huruf i untuk estetika profesional */
+        .logo-accent {
+            color: #fbc02d;
+        }
+
+        .divider {
+            width: 60px;
+            height: 4px;
+            background-color: #fbc02d;
+            border: none;
+            border-radius: 2px;
+            margin: 15px auto 25px auto;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            max-width: 650px;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        /* Animasi indikator pemuatan melingkar */
+        .loader {
+            width: 45px;
+            height: 45px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fbc02d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Frame yang menyembunyikan header asli Apps Script */
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Antarmuka Pemuatan -->
+    <div id="splash-screen">
+        <h1 class="logo-title">S<span class="logo-accent">i</span>SUPERVISI</h1>
+        <hr class="divider">
+        <p class="subtitle">
+            Sistem Informasi Supervisi & Mutu Satuan Pendidikan<br>
+            Dinas Pendidikan Pemuda dan Olahraga Kabupaten Cianjur
+        </p>
+        <div class="loader"></div>
+    </div>
+
+    <!-- GANTI atribut src dengan URL Web App Apps Script milik Anda -->
+    <iframe id="gas-frame" src="https://script.google.com/macros/s/AKfycbzvDBvrKp_Uva6rulN2TXSzxeYGyxqlAUib1qGFjkegsFhAJqyzmMV2FXwnKh8m5O6d/exec" allow="camera; microphone; geolocation; clipboard-write"></iframe>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const iframe = document.getElementById('gas-frame');
+            const splash = document.getElementById('splash-screen');
+
+            function removeSplash() {
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 500); 
+            }
+
+            // Menghilangkan splash screen secara otomatis setelah aplikasi GAS di dalam iframe selesai dimuat
+            iframe.onload = function() {
+                removeSplash();
+            };
+
+            // Batas waktu cadangan 7 detik jika iframe gagal mengirimkan status onload
+            setTimeout(() => {
+                if(splash.style.display !== 'none') {
+                    removeSplash();
+                }
+            }, 7000);
+        });
+    </script>
+</body>
+</html>
